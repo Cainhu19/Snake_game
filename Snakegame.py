@@ -47,6 +47,7 @@ def jogo():
     velocidade_x = 0
     velocidade_y = 0
     CobraXY     = []
+    cont = 0
 
     #Comprimento da cobra, a variável vai limitar o comprimento da cobra
     CobraComp   = 1
@@ -59,15 +60,24 @@ def jogo():
     while sair:
 #Menu
         while menu:
-            fundo.fill(umacor)
+            fundo.fill(blue)
             texto("JOOJ", white, 100, 400, 100 )
-            pygame.draw.rect(fundo, black, [400, 250, 125, 27])
+            
             texto("Iniciar(I)", white, 30, 405, 255)
-            pygame.draw.rect(fundo, black, [400, 290, 135, 27])
+            
             texto("Instruções(P)", white, 30, 405, 295)
-            pygame.draw.rect(fundo, black, [400, 330, 75, 27])
+            
             texto("Sair(S)", white, 30, 405, 335)
-            #pygame.draw.circle(fundo, red, [440, 200], 5)
+            if cont == 0: 
+                pygame.draw.rect(fundo, red, [380, 260, 10, 10])
+            elif cont == 1:
+                pygame.draw.rect(fundo, red, [380, 300, 10, 10])
+            elif cont == 2:
+                pygame.draw.rect(fundo, red, [380, 340, 10, 10])
+            elif cont == 3:
+                cont = 0
+            elif cont == -1:
+                cont = 2
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sair = False
@@ -90,45 +100,71 @@ def jogo():
                         fimdejogo = False
                         menu = False
                         instruçoes = True
-                '''if event.type == pygame.MOUSEBUTTONDOWN:
-                    x = pygame.mouse.get_pos()[0]
-                    y = pygame.mouse.get_pos()[1]
-                    if x > 45 and y > 120 and x < 180 and y < 147:
-                        menu = False
-                        fimdejogo = False
-                        sair = True
-                        instruçoes = False
-                    elif x > 190 and y > 120 and x < 265 and y < 147:
-                        sair = False
-                        fimdejogo = False
-                        menu = False
-                        instruçoes = False 
-                    elif x > 45 and y > 120 and x < 205 and y < 187:
-                        sair = True
-                        fimdejogo = False
-                        menu = False
-                        instruçoes = True'''
-        
+                    if event.key == pygame.K_DOWN:
+                        cont += 1
+                    if event.key == pygame.K_UP:
+                        cont -= 1
+                    if event.key == pygame.K_RETURN:
+                        if cont == 0:
+                            menu = False
+                            fimdejogo = False
+                            sair = True
+                            instruçoes = False 
+                        elif cont == 1:
+                            sair = True
+                            fimdejogo = False
+                            menu = False
+                            instruçoes = True
+                        elif cont == 2:
+                            sair = False
+                            fimdejogo = False
+                            menu = False
+                            instruçoes = False
+
             pygame.display.update()
         while instruçoes:
-            fundo.fill(umacor)
+            fundo.fill(blue)
             texto("made by Cainhu69", black, 30, 0, 0)
-            texto("Você é um quadrado preto", black, 30, 0, 30)
-            texto("(cobrinha) que tem que comer um ", black, 29, 0, 60)
-            texto("quadrado vermelho(maçã)", black,  29, 0, 90)
-            texto("Você não pode ir diretamente pra uma direção contrária a que estava antes(ex: cima e baixo)", black, 30, 0, 120)
-            texto("Você não pode bater nas paredes", black, 30, 0, 150)
+            texto("Você é um quadrado preto (cobrinha) que tem que comer um quadrado vermelho(maçã)", black, 30, 0, 30)
+            texto("Conforme você vai comendo maçãs, o tamanho da cobrinha e os pontos aumentam", black, 30, 0, 60)
+            texto("Você não pode ir diretamente pra uma direção contrária a que estava antes(ex: cima e baixo)", black, 30, 0, 90)
+            texto("Você não pode bater nas paredes", black, 30, 0, 120)
 
+            pygame.draw.rect(fundo, black, [20, 600, 125, 30])
+            texto("Voltar", white, 30, 25, 605)
+            pygame.draw.rect(fundo, red, [5, 610, 10, 10])
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sair = False
                     fimdejogo = False
                     menu = False
                     instruçoes = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        instruçoes = False
+                        menu = True
+                        sair = True
+                        fimdejogo = False
             pygame.display.update()
+            cont = 0
 #Game over
         while fimdejogo:
+            fundo.fill(blue)
+            texto('Game over', black, 50, 65, 30)
             
+            texto("Continuar(C)", white, 30, 405, 255)
+            
+            texto("Sair(S)",white, 30, 405, 295)
+            texto("Pontuação final: "+str(pontos), black, 30, 70, 80)
+            if cont == 0: 
+                pygame.draw.rect(fundo, red, [380, 260, 10, 10])
+            elif cont == 1:
+                pygame.draw.rect(fundo, red, [380, 300, 10, 10])
+            elif cont == 2:
+                cont = 0
+            elif cont == -1:
+                cont = 1
+            pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sair = False
@@ -152,34 +188,30 @@ def jogo():
                         sair = False
                         fimdejogo = False
                         menu = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x = pygame.mouse.get_pos()[0]
-                    y = pygame.mouse.get_pos()[1]
-                    if x > 45 and y > 120 and x < 180 and y < 147:
-                        menu = False
-                        sair = True
-                        fimdejogo = False
-                        pos_x   = randrange(0, largura-tamanho, 10)
-                        pos_y   = randrange(0, altura-tamanho-placar, 10)
-                        maca_x  = randrange(0, largura-tamanho, 10)
-                        maca_y  = randrange(0, altura-tamanho-placar, 10)
-                        velocidade_x = 0
-                        velocidade_y = 0
-                        CobraXY     = []
-                        CobraComp   = 1
-                        pontos = 0
-                    elif x > 190 and y > 120 and x < 265 and y < 147:
-                        sair = False
-                        fimdejogo = False
-                        menu = False
-            fundo.fill(blue)
-            texto('Game over', black, 50, 65, 30)
-            pygame.draw.rect(fundo, black, [45, 120, 135, 27])
-            texto("Continuar(C)", white, 30, 50, 125)
-            pygame.draw.rect(fundo, black, [190, 120, 75, 27])
-            texto("Sair(S)", white, 30, 195, 125)
-            texto("Pontuação final: "+str(pontos), black, 30, 70, 80)
-            pygame.display.update()
+                    if event.key == pygame.K_DOWN:
+                        cont += 1
+                    if event.key == pygame.K_UP:
+                        cont -= 1
+                    if event.key == pygame.K_RETURN:
+                        if cont == 0:
+                            menu = False
+                            sair = True
+                            fimdejogo = False
+                            pos_x   = randrange(0, largura-tamanho, 10)
+                            pos_y   = randrange(0, altura-tamanho-placar, 10)
+                            maca_x  = randrange(0, largura-tamanho, 10)
+                            maca_y  = randrange(0, altura-tamanho-placar, 10)
+                            velocidade_x = 0
+                            velocidade_y = 0
+                            CobraXY     = []
+                            CobraComp   = 1
+                            pontos = 0
+                        if cont == 1:
+                            sair = False
+                            fimdejogo = False
+                            menu = False
+
+
 #In game
         for event in pygame.event.get():
             if  event.type == pygame.QUIT:
