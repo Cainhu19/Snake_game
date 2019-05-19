@@ -130,7 +130,7 @@ def jogo():
             texto("Você não pode ir diretamente pra uma direção contrária a que estava antes(ex: cima e baixo)", black, 30, 0, 90)
             texto("Você não pode bater nas paredes", black, 30, 0, 120)
 
-            pygame.draw.rect(fundo, black, [20, 600, 125, 30])
+            
             texto("Voltar", white, 30, 25, 605)
             pygame.draw.rect(fundo, red, [5, 610, 10, 10])
             for event in pygame.event.get():
