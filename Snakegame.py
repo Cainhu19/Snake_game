@@ -14,8 +14,9 @@ pygame.init()
 #Variáveis globais:
 largura = 1000
 altura  = 700
-tamanho = 10
-placar  = 40 
+tamanho = 20
+placar  = 60 
+
 #Definindo clock
 clock = pygame.time.Clock()
 
@@ -40,10 +41,10 @@ def jogo():
     menu = True
     fimdejogo = False
     instruçoes = False
-    pos_x   = randrange(0, largura-tamanho, 10)
-    pos_y   = randrange(0, altura-tamanho-placar, 10)
-    maca_x  = randrange(0, largura-tamanho, 10)
-    maca_y  = randrange(0, altura-tamanho-placar, 10)
+    pos_x   = randrange(0, largura-tamanho, 20)
+    pos_y   = randrange(0, altura-tamanho-placar, 20)
+    maca_x  = randrange(0, largura-tamanho, 20)
+    maca_y  = randrange(0, altura-tamanho-placar, 20)
     velocidade_x = 0
     velocidade_y = 0
     CobraXY     = []
@@ -63,11 +64,11 @@ def jogo():
             fundo.fill(blue)
             texto("JOOJ", white, 100, 400, 100 )
             
-            texto("Iniciar(I)", white, 30, 405, 255)
+            texto("Iniciar", white, 30, 405, 255)
             
-            texto("Instruções(P)", white, 30, 405, 295)
+            texto("Instruções", white, 30, 405, 295)
             
-            texto("Sair(S)", white, 30, 405, 335)
+            texto("Sair", white, 30, 405, 335)
             if cont == 0: 
                 pygame.draw.rect(fundo, red, [380, 260, 10, 10])
             elif cont == 1:
@@ -85,24 +86,9 @@ def jogo():
                     menu = False
                     instruçoes = False
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_i:
-                        menu = False
-                        fimdejogo = False
-                        sair = True
-                        instruçoes = False 
-                    if event.key == pygame.K_s:
-                        sair = False
-                        fimdejogo = False
-                        menu = False
-                        instruçoes = False
-                    if event.key == pygame.K_p:
-                        sair = True
-                        fimdejogo = False
-                        menu = False
-                        instruçoes = True
-                    if event.key == pygame.K_DOWN:
+                    if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                         cont += 1
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
                         cont -= 1
                     if event.key == pygame.K_RETURN:
                         if cont == 0:
@@ -133,7 +119,7 @@ def jogo():
             
             texto("Voltar", white, 30, 25, 605)
             pygame.draw.rect(fundo, red, [5, 610, 10, 10])
-            for event in pygame.event.get():
+            for event in pygame.event.get():        
                 if event.type == pygame.QUIT:
                     sair = False
                     fimdejogo = False
@@ -152,9 +138,9 @@ def jogo():
             fundo.fill(blue)
             texto('Game over', black, 50, 65, 30)
             
-            texto("Continuar(C)", white, 30, 405, 255)
+            texto("Continuar", white, 30, 405, 255)
             
-            texto("Sair(S)",white, 30, 405, 295)
+            texto("Sair",white, 30, 405, 295)
             texto("Pontuação final: "+str(pontos), black, 30, 70, 80)
             if cont == 0: 
                 pygame.draw.rect(fundo, red, [380, 260, 10, 10])
@@ -171,26 +157,9 @@ def jogo():
                     fimdejogo = False
                     menu = False
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_c:
-                        menu = False
-                        sair = True
-                        fimdejogo = False
-                        pos_x   = randrange(0, largura-tamanho, 10)
-                        pos_y   = randrange(0, altura-tamanho-placar, 10)
-                        maca_x  = randrange(0, largura-tamanho, 10)
-                        maca_y  = randrange(0, altura-tamanho-placar, 10)
-                        velocidade_x = 0
-                        velocidade_y = 0
-                        CobraXY     = []
-                        CobraComp   = 1
-                        pontos = 0
-                    if event.key == pygame.K_s:
-                        sair = False
-                        fimdejogo = False
-                        menu = False
-                    if event.key == pygame.K_DOWN:
+                    if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                         cont += 1
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
                         cont -= 1
                     if event.key == pygame.K_RETURN:
                         if cont == 0:
@@ -218,17 +187,18 @@ def jogo():
                 sair = False
                 menu = False
                 fimdejogo = False
+                instruçoes = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT and velocidade_x != tamanho:
-                    velocidade_y = 0
+                if (event.key == pygame.K_LEFT and velocidade_x != tamanho) or (event.key == pygame.K_a and velocidade_x != tamanho):
+                    velocidade_y = 0    
                     velocidade_x = - tamanho
-                if event.key == pygame.K_RIGHT and velocidade_x != -tamanho:
+                if (event.key == pygame.K_RIGHT and velocidade_x != -tamanho) or (event.key == pygame.K_d and velocidade_x != -tamanho):
                     velocidade_y = 0
                     velocidade_x = tamanho
-                if event.key == pygame.K_UP and velocidade_y != tamanho:
+                if (event.key == pygame.K_UP and velocidade_y != tamanho) or (event.key == pygame.K_w and velocidade_y != tamanho):
                     velocidade_x = 0
                     velocidade_y = -tamanho
-                if event.key == pygame.K_DOWN and velocidade_y != -tamanho:
+                if (event.key == pygame.K_DOWN and velocidade_y != -tamanho) or (event.key == pygame.K_s and velocidade_y != -tamanho):
                     velocidade_x = 0
                     velocidade_y = tamanho
         if sair:
@@ -250,11 +220,11 @@ def jogo():
 
             maca(maca_x, maca_y)
             pygame.draw.rect(fundo, black, [0, altura-placar, largura, placar])
-            texto("Pontuação: "+str(pontos), white, 20, 10, altura-30)
+            texto("Pontuação: "+str(pontos), white, 40, 10, altura-40)
             
             if pos_x == maca_x and pos_y == maca_y:
-                maca_x  = randrange(0, largura-tamanho, 10)
-                maca_y  = randrange(0, altura-tamanho-placar, 10)
+                maca_x  = randrange(0, largura-tamanho, 20)
+                maca_y  = randrange(0, altura-tamanho-placar, 20)
                 CobraComp += 1
                 pontos += 100
 
