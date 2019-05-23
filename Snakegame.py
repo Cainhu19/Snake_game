@@ -6,6 +6,7 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 red   = (255, 0, 0) 
 blue  = (0, 0, 255)
+green = (0, 255, 0)
 umacor = (115, 205, 252)
 
 pygame.init()
@@ -17,6 +18,7 @@ altura  = 700
 tamanho = 20
 placar  = 60 
 
+
 #Definindo clock
 clock = pygame.time.Clock()
 
@@ -24,7 +26,7 @@ fundo = pygame.display.set_mode((largura, altura))
 pygame.display.set_caption("Snake")
 
 def texto(msg, cor, tam, x, y):
-    fonte = pygame.font.SysFont(None, tam)
+    fonte = pygame.font.SysFont(None, tam)      
     texto1 = fonte.render(msg, True, cor)
     fundo.blit(texto1, [x, y])
 
@@ -41,6 +43,7 @@ def jogo():
     menu = True
     fimdejogo = False
     instruçoes = False
+    config = False
     pos_x   = randrange(0, largura-tamanho, 20)
     pos_y   = randrange(0, altura-tamanho-placar, 20)
     maca_x  = randrange(0, largura-tamanho, 20)
@@ -49,6 +52,11 @@ def jogo():
     velocidade_y = 0
     CobraXY     = []
     cont = 0
+    contx = 0
+    dificuldade = 0
+    foud = 2
+    sansundertale = 0
+    
 
     #Comprimento da cobra, a variável vai limitar o comprimento da cobra
     CobraComp   = 1
@@ -59,16 +67,20 @@ def jogo():
 
 #Loop principal
     while sair:
+    
 #Menu
         while menu:
             fundo.fill(blue)
-            texto("JOOJ", white, 100, 400, 100 )
+            texto("Snake", white, 100, 400, 100 )
             
             texto("Iniciar", white, 30, 405, 255)
             
             texto("Instruções", white, 30, 405, 295)
+    
+            texto("Configurações", white, 30, 405, 335 )
             
-            texto("Sair", white, 30, 405, 335)
+            texto("Sair", white, 30, 405, 375)
+
             if cont == 0: 
                 pygame.draw.rect(fundo, red, [380, 260, 10, 10])
             elif cont == 1:
@@ -76,9 +88,11 @@ def jogo():
             elif cont == 2:
                 pygame.draw.rect(fundo, red, [380, 340, 10, 10])
             elif cont == 3:
+                pygame.draw.rect(fundo, red, [380, 380, 10, 10])
+            elif cont == 4:
                 cont = 0
             elif cont == -1:
-                cont = 2
+                cont = 3
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sair = False
@@ -96,27 +110,36 @@ def jogo():
                             fimdejogo = False
                             sair = True
                             instruçoes = False 
+                            config = False
                         elif cont == 1:
                             sair = True
                             fimdejogo = False
                             menu = False
                             instruçoes = True
+                            config = False
                         elif cont == 2:
+                            sair = True
+                            fimdejogo = False
+                            menu = False
+                            instruçoes = False
+                            config = True
+                        elif cont == 3:
                             sair = False
                             fimdejogo = False
                             menu = False
                             instruçoes = False
+                            config = False
+
 
             pygame.display.update()
-        while instruçoes:
-            fundo.fill(blue)
-            texto("made by Cainhu69", black, 30, 0, 0)
-            texto("Você é um quadrado preto (cobrinha) que tem que comer um quadrado vermelho(maçã)", black, 30, 0, 30)
-            texto("Conforme você vai comendo maçãs, o tamanho da cobrinha e os pontos aumentam", black, 30, 0, 60)
-            texto("Você não pode ir diretamente pra uma direção contrária a que estava antes(ex: cima e baixo)", black, 30, 0, 90)
-            texto("Você não pode bater nas paredes", black, 30, 0, 120)
 
-            
+        while instruçoes:
+
+            fundo.fill(blue)
+            texto("made by Cainhu", black, 30, 0, 0)
+            texto("Você controla uma cobrinha e deve comer as maçãs para aumentar o tamanho e ganhar pontos", black, 30, 0, 40)
+            texto("A cobra não pode colidir com o próprio corpo ou com uma parede, se não o jogo acaba", black, 30, 0, 80)
+
             texto("Voltar", white, 30, 25, 605)
             pygame.draw.rect(fundo, red, [5, 610, 10, 10])
             for event in pygame.event.get():        
@@ -131,25 +154,115 @@ def jogo():
                         menu = True
                         sair = True
                         fimdejogo = False
+                        config = False
             pygame.display.update()
             cont = 0
+#Configuraçoes
+        cont = 0
+        while config:
+            fundo.fill(blue)
+            texto("Configurações", black, 50, 350, 70)
+            texto("Escolha a dificuldade: ", black, 30, 350, 200)
+            texto("Fácil", black, 30, 600, 200)
+            texto("Difícil", black, 30, 680, 200)
+            texto("Voltar", black, 30, 25, 605)
+            
+            if cont == 0:
+                pygame.draw.rect(fundo, red, [330, 205, 10, 10])
+                if contx == 0:
+                    pygame.draw.rect(fundo, white, [620, 225, 10, 10])
+                    texto("Fácil", white, 30, 600, 200)
+                    if foud == 0:
+                        texto("Fácil", umacor, 30, 600, 200)
+                        texto("Difícil", black, 30, 680, 200)
+                    elif foud == 1:
+                        texto("Fácil", black, 30, 600, 200)
+                        texto("Difícil", umacor, 30, 680, 200)
+                    
+                if contx == 1:
+                    pygame.draw.rect(fundo, white, [700, 225, 10, 10])
+                    texto("Difícil", white, 30, 680, 200)
+                    if foud == 0:
+                        texto("Fácil", umacor, 30, 600, 200)
+                        texto("Difícil", black, 30, 680, 200)
+                    elif foud == 1:
+                        texto("Fácil", black, 30, 600, 200)
+                        texto("Difícil", umacor, 30, 680, 200)
+
+                if contx == 2:
+                    contx = 0
+                if contx == -1:
+                    contx = 1
+
+            if cont == 1:
+                pygame.draw.rect(fundo, red, [5, 610, 10, 10])
+
+            if cont == 2:
+                cont = 0 
+
+            if cont == -1:
+                cont = 1
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sair = False
+                    menu = False
+                    fimdejogo = False
+                    instruçoes = False 
+                    config = False
+                if event.type == pygame.KEYDOWN:
+                    if cont == 0:
+                        if event.key == pygame.K_RIGHT:
+                            contx += 1
+                        if event.key == pygame.K_LEFT:
+                            contx -= 1
+                        if contx == 0 and event.key == pygame.K_RETURN:
+                            dificuldade = 0
+                            foud = 0
+                        if contx == 1 and event.key == pygame.K_RETURN:
+                            dificuldade = 1
+                            foud = 1
+
+                    if cont == 1 and event.key == pygame.K_RETURN:
+                        if sansundertale == 0:
+                            instruçoes = False
+                            menu = True
+                            sair = True
+                            fimdejogo = False
+                            config = False
+                        if sansundertale == 1:
+                            instruçoes = False
+                            menu = False    
+                            sair = True
+                            fimdejogo = True
+                            config = False
+                    if event.key == pygame.K_DOWN:
+                        cont += 1
+                    if event.key == pygame.K_UP:
+                        cont -= 1
+
+
+            pygame.display.update()
+
 #Game over
         while fimdejogo:
             fundo.fill(blue)
             texto('Game over', black, 50, 65, 30)
             
             texto("Continuar", white, 30, 405, 255)
-            
-            texto("Sair",white, 30, 405, 295)
+            texto("Configurações", white, 30, 405, 295)
+            texto("Sair",white, 30, 405, 335)
             texto("Pontuação final: "+str(pontos), black, 30, 70, 80)
             if cont == 0: 
                 pygame.draw.rect(fundo, red, [380, 260, 10, 10])
             elif cont == 1:
                 pygame.draw.rect(fundo, red, [380, 300, 10, 10])
             elif cont == 2:
+                pygame.draw.rect(fundo, red, [380, 340, 10, 10])
+            elif cont == 3:
                 cont = 0
             elif cont == -1:
-                cont = 1
+                cont = 2
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -166,16 +279,23 @@ def jogo():
                             menu = False
                             sair = True
                             fimdejogo = False
-                            pos_x   = randrange(0, largura-tamanho, 10)
-                            pos_y   = randrange(0, altura-tamanho-placar, 10)
-                            maca_x  = randrange(0, largura-tamanho, 10)
-                            maca_y  = randrange(0, altura-tamanho-placar, 10)
+                            pos_x   = randrange(0, largura-tamanho, 20)
+                            pos_y   = randrange(0, altura-tamanho-placar, 20)
+                            maca_x  = randrange(0, largura-tamanho, 20)
+                            maca_y  = randrange(0, altura-tamanho-placar, 20)
                             velocidade_x = 0
                             velocidade_y = 0
                             CobraXY     = []
                             CobraComp   = 1
                             pontos = 0
                         if cont == 1:
+                            sair = True
+                            fimdejogo = False
+                            menu = False
+                            instruçoes = False
+                            config = True
+                            sansundertale = 1
+                        if cont == 2:
                             sair = False
                             fimdejogo = False
                             menu = False
@@ -246,6 +366,10 @@ def jogo():
 
 
             pygame.display.update()
-            clock.tick(15)
+
+            if dificuldade == 1:
+                clock.tick(30)  
+            if dificuldade == 0:
+                clock.tick(15)
 
 jogo()
