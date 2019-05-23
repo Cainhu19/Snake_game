@@ -248,8 +248,7 @@ def jogo():
         while fimdejogo:
             fundo.fill(blue)
             texto('Game over', black, 50, 65, 30)
-            
-            texto("Continuar", white, 30, 405, 255)
+            texto("Tentar de novo", white, 30, 405, 255)
             texto("Configurações", white, 30, 405, 295)
             texto("Sair",white, 30, 405, 335)
             texto("Pontuação final: "+str(pontos), black, 30, 70, 80)
@@ -361,6 +360,7 @@ def jogo():
                 fimdejogo = True        
             if pos_y > altura - tamanho - placar:
                 fimdejogo = True
+                
             if pos_y < 0:
                 fimdejogo = True
 
@@ -368,8 +368,8 @@ def jogo():
             pygame.display.update()
 
             if dificuldade == 1:
-                clock.tick(30)  
+                clock.tick(35)  
             if dificuldade == 0:
-                clock.tick(15)
+                clock.tick(20)
 
 jogo()
