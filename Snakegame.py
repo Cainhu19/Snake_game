@@ -1,6 +1,7 @@
 import pygame
 from random import randrange
 
+
 #Cores
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -10,6 +11,9 @@ green = (0, 255, 0)
 umacor = (115, 205, 252)
 
 pygame.init()
+
+
+
 
 
 #Variáveis globais:
@@ -38,6 +42,8 @@ def cobra(CobraXY):
 def maca(maca_x, maca_y):
     pygame.draw.rect(fundo, red, [maca_x, maca_y, tamanho, tamanho])
 
+
+
 def jogo():
     sair = True
     menu = True
@@ -59,7 +65,7 @@ def jogo():
     
 
     #Comprimento da cobra, a variável vai limitar o comprimento da cobra
-    CobraComp   = 1
+    CobraComp   = 2
 
 
     pontos = 0
@@ -70,6 +76,7 @@ def jogo():
     
 #Menu
         while menu:
+            
             fundo.fill(blue)
             texto("Snake", white, 100, 400, 100 )
             
@@ -78,7 +85,7 @@ def jogo():
             texto("Instruções", white, 30, 405, 295)
     
             texto("Configurações", white, 30, 405, 335 )
-            
+         
             texto("Sair", white, 30, 405, 375)
 
             if cont == 0: 
@@ -90,7 +97,7 @@ def jogo():
             elif cont == 3:
                 pygame.draw.rect(fundo, red, [380, 380, 10, 10])
             elif cont == 4:
-                cont = 0
+                cont == 0
             elif cont == -1:
                 cont = 3
             for event in pygame.event.get():
@@ -134,7 +141,7 @@ def jogo():
             pygame.display.update()
 
         while instruçoes:
-
+            
             fundo.fill(blue)
             texto("made by Cainhu", black, 30, 0, 0)
             texto("Você controla uma cobrinha e deve comer as maçãs para aumentar o tamanho e ganhar pontos", black, 30, 0, 40)
@@ -160,6 +167,7 @@ def jogo():
 #Configuraçoes
         cont = 0
         while config:
+            
             fundo.fill(blue)
             texto("Configurações", black, 50, 350, 70)
             texto("Escolha a dificuldade: ", black, 30, 350, 200)
@@ -246,6 +254,7 @@ def jogo():
 
 #Game over
         while fimdejogo:
+            
             fundo.fill(blue)
             texto('Game over', black, 50, 65, 30)
             texto("Tentar de novo", white, 30, 405, 255)
@@ -285,7 +294,7 @@ def jogo():
                             velocidade_x = 0
                             velocidade_y = 0
                             CobraXY     = []
-                            CobraComp   = 1
+                            CobraComp   = 2
                             pontos = 0
                         if cont == 1:
                             sair = True
@@ -301,6 +310,7 @@ def jogo():
 
 
 #In game
+        
         for event in pygame.event.get():
             if  event.type == pygame.QUIT:
                 sair = False
@@ -322,7 +332,7 @@ def jogo():
                     velocidade_y = tamanho
         if sair:
             
-
+            
             fundo.fill(white)
             pos_x+=velocidade_x
             pos_y+=velocidade_y
@@ -347,6 +357,8 @@ def jogo():
                 CobraComp += 1
                 pontos += 100
 
+            
+
             if len(CobraXY) >= CobraComp:
                 del CobraXY[0]
             
@@ -365,10 +377,12 @@ def jogo():
                 fimdejogo = True
 
 
+
+
             pygame.display.update()
 
             if dificuldade == 1:
-                clock.tick(35)  
+                clock.tick(30)  
             if dificuldade == 0:
                 clock.tick(20)
 
